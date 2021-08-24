@@ -23,7 +23,7 @@ app.use((req, res, next) => {
 });
 
 // cors
-app.use(cors({ origin: "http://localhost:5500", credentials: true }));
+app.use(cors({ origin: "https://mern-stack-app1.netlify.app", credentials: true }));
 
 app.use(cookieParser());
 
