@@ -99,38 +99,13 @@ const signinUser = (req, res) => {
       bcrypt.compare(req.body.password, user[0].password).then((result) => {
         if (result) {
           const token = jwt.sign({ ...user[0] }, process.env.SECRET_KEY, { expiresIn: "1d" });
-          fetchBlackList(req.connection, req.body.email, (err, result) => {
-            if (result != null && result.length > 0) {
-              updateBlackList(req.connection, { token }, req.body.email, (err, userData) => {
-                if (userData.affectedRows > 0) {
-                  commonResponse({
-                    res,
-                    success: true,
-                    message: "User Logged in Successfully",
-                    data: null,
-                    token,
-                    email: req.body.email,
-                  });
-                } else {
-                  res.send({ success: false, message: "Invalid Password" });
-                }
-              });
-            } else {
-              addBlackList(req.connection, { token, email: req.body.email }, (err, userData) => {
-                if (!err) {
-                  commonResponse({
-                    res,
-                    success: true,
-                    message: "User Logged in Successfully",
-                    data: null,
-                    token,
-                    email: req.body.email,
-                  });
-                } else {
-                  res.send({ success: false, message: "Invalid Password" });
-                }
-              });
-            }
+          commonResponse({
+            res,
+            success: true,
+            message: "User Logged in Successfully",
+            data: null,
+            token,
+            email: req.body.email,
           });
         } else {
           res.send({ success: false, message: "Invalid Password" });
